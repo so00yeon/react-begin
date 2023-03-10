@@ -10,10 +10,12 @@
         const root = document.getElementById("root");
         function App() {
             const [minutes, setMinutes] = React.useState(0);
+            const [flipped, setFlipped] = React.useState(false);
             const onChange = event => {
                 setMinutes(event.target.value);
             };
             const reset = () => setMinutes(0);
+            const onFlip = () => setFlipped(current => !current);
 
             return (
                 <div>
@@ -26,6 +28,7 @@
                             placeholder="Minutes"
                             type="number"
                             onChange={onChange}
+                            disabled={flipped}
                         />
                     </div>
                     <div>
@@ -35,9 +38,11 @@
                             id="hours"
                             placeholder="Hours"
                             type="number"
+                            disabled={!flipped}
                         />
                     </div>
                     <button onClick={reset}>Reset</button>
+                    <button onClick={onFlip}>Flip</button>
                 </div>
             );
         }
