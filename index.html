@@ -50,11 +50,73 @@
                 </div>
             );
         }
+        function KmToMiles() {
+            const [amount, setAmount] = React.useState(0);
+            const [inverted, setInverted] = React.useState(false);
+            const onChange = event => {
+                setAmount(event.target.value);
+            };
+            const reset = () => setAmount(0);
+            const onInvert = () => {
+                reset();
+                setInverted(current => !current);
+            };
+
+            return (
+                <div>
+                    <div>
+                        <label htmlFor="km">km</label>
+                        <input
+                            value={
+                                inverted
+                                    ? (amount * 1.609344).toFixed(2)
+                                    : amount
+                            }
+                            id="km"
+                            placeholder="km"
+                            type="number"
+                            onChange={onChange}
+                            disabled={inverted}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="miles">miles</label>
+                        <input
+                            value={
+                                inverted
+                                    ? amount
+                                    : (amount / 1.609344).toFixed(2)
+                            }
+                            id="miles"
+                            placeholder="miles"
+                            type="number"
+                            onChange={onChange}
+                            disabled={!inverted}
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onInvert}>
+                        {inverted ? "Turn back" : "Invert"}
+                    </button>
+                </div>
+            );
+        }
         function App() {
+            const [index, setIndex] = React.useState("0");
+            const onSelect = event => {
+                setIndex(event.target.value);
+            };
+
             return (
                 <div>
                     <h1>Supper Converter</h1>
-                    <MinutesToHours />
+                    <select value={index} onChange={onSelect}>
+                        <option value="0">Minutes & Hours</option>
+                        <option value="1">Km & Miles</option>
+                    </select>
+                    <hr />
+                    {index === "0" ? <MinutesToHours /> : null}
+                    {index === "1" ? <KmToMiles /> : null}
                 </div>
             );
         }
